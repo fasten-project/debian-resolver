@@ -28,6 +28,8 @@ optional arguments:
 
 Flask API
 ---------
+* **Endpoint**: `/api/v1/packages`
+* **Supported query parameters**: input (mandatory), release
 
 Output Format
 -------------

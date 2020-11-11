@@ -24,6 +24,8 @@ import json
 import argparse
 import re
 import subprocess as sp
+import flask
+from flask import request, jsonify, make_response
 
 
 DEBIAN_RELEASES = {
@@ -34,6 +36,8 @@ DEBIAN_RELEASES = {
     'oldoldstable': "jessie"
 }
 
+
+##### RESOLVER ######
 
 class Package():
     def __init__(self, regex_match):
@@ -122,6 +126,51 @@ def run_apt_venv(input_string, release):
         return False, err
     return True, res
 
+###### FLASK API ######
+app = flask.Flask("api")
+app.config["DEBUG"] = True
+
+@app.route('/', methods=['GET'])
+def home():
+    return '''<h1>Debian Resolver</h1>
+    <p>An API for resolving Debian dependencies.</p>
+    <p>API endpoint: /api/v1/packages<p>
+    <p>Supported query parameters: input (mandatory), release
+    '''
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return "<h1>404</h1><p>The resource could not be found.</p>", 404
+
+@app.route('/api/v1/packages', methods=['GET'])
+def resolver_api():
+    query_parameters = request.args
+
+    input_string = query_parameters.get('input')
+    release = query_parameters.get('release')
+
+    if not input_string:
+        return make_response(
+            jsonify({"error": "You should provide `input` query parameters"}),
+            400)
+
+    if not release:
+        release = 'stable'
+
+    if release not in DEBIAN_RELEASES.keys():
+        mes = "Not valid release ({}). You should give one of: {}".format(
+            release,
+            ', '.join(DEBIAN_RELEASES.keys())
+        )
+        return make_response(jsonify({"error": mes}), 400)
+
+    status, res = run_apt_venv(input_string, release)
+
+    return jsonify(get_response(input_string, status, res))
+
+
+###### CLI ######
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -177,7 +226,7 @@ def main():
         raise parser.error(message)
 
     if flask:
-        raise NotImplementedError
+        app.run()
 
     release = release if release else "stable"
 

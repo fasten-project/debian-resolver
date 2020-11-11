@@ -23,8 +23,9 @@
 #
 FROM debian:stable
 
-# INSTALL apt-venv
-RUN apt -yqq update && apt -yqq upgrade && apt install -yqq apt-venv
+# INSTALL apt-venv, python3, pip3
+RUN apt -yqq update && apt -yqq upgrade && apt install -yqq apt-venv python3 python3-pip
+RUN pip3 install -r requirements.txt
 
 # Setup environments
 RUN apt-venv stable -c "apt update -yqq && apt upgrade -yqq"
