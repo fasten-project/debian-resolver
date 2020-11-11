@@ -182,8 +182,8 @@ def get_parser():
         type=str,
         help=(
             "Input should be a string of a package name or the names of "
-            "multiple packages separated by commas. Examples: "
-            "'debianutils' or 'debianutils=4.8.6.1' or 'debianutils, zlib1g'"
+            "multiple packages separated by spaces. Examples: "
+            "'debianutils' or 'debianutils=4.8.6.1' or 'debianutils zlib1g'"
         )
     )
     parser.add_argument(

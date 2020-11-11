@@ -17,8 +17,8 @@ optional arguments:
   -h, --help            show this help message and exit
   -i INPUT, --input INPUT
                         Input should be a string of a package name or the names of multiple
-                        packages separated by commas. Examples: 'debianutils' or
-                        'debianutils=4.8.6.1' or 'debianutils, zlib1g'
+                        packages separated by spaces. Examples: 'debianutils' or
+                        'debianutils=4.8.6.1' or 'debianutils zlib1g'
   -o OUTPUT_FILE, --output-file OUTPUT_FILE
                         File to save the output
   -r RELEASE, --release RELEASE
