@@ -39,7 +39,7 @@ Note that in `packages` key, there is also the package that was given as input.
 
 ```json
 {
-    "input": "debianutils"
+    "input": "debianutils",
     "status": true,
     "packages": {
         "libc6": {
