@@ -53,7 +53,7 @@ Note that in `packages` key, there is also the package that was given as input.
               "source_version": "2.28-10",
               "date": ""
             },
-            "debianutils": {
+        "debianutils": {
               "package": "debianutils",
               "version": "4.8.6.1",
               "arch": "amd64",
@@ -61,7 +61,7 @@ Note that in `packages` key, there is also the package that was given as input.
               "source": "debianutils",
               "source_version": "4.8.6.1",
               "date": ""
-            }
+        }
     }
 }
 ```
