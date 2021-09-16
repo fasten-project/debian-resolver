@@ -21,20 +21,27 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-FROM debian:buster
+FROM debian:stable
 
-# INSTALL apt-venv, python3, pip3
-RUN apt -yqq update && apt -yqq upgrade && apt install -yqq apt-venv python3 python3-pip
+# INSTALL git, python3, python, wget, pip3
+RUN apt -yqq update && apt -yqq upgrade && apt install -yqq git python3 python wget python3-pip
+
+# Pip and pyxdg are required for installing apt-venv
+RUN wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+RUN python get-pip.py
+RUN pip install pyxdg
+
+RUN git clone https://github.com/LeoIannacone/apt-venv.git
+RUN cd apt-venv && python setup.py install
 
 RUN mkdir -p /api
+COPY requirements.txt /api/requirements.txt
+COPY ./entrypoint.py api/entrypoint.py
 
-COPY ./entrypoint.py /api/entrypoint.py
-COPY ./requirements.txt /api/requirements.txt
+RUN pip3 install -r api/requirements.txt
 
 WORKDIR /api
-RUN pip3 install -r requirements.txt
 
 # Setup environments
 RUN apt-venv stable -c "apt update -yqq && apt upgrade -yqq"
-
 ENTRYPOINT ["python3", "entrypoint.py", "-f"]
