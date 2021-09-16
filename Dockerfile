@@ -21,13 +21,20 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-FROM debian:stable
+FROM debian:buster
 
 # INSTALL apt-venv, python3, pip3
 RUN apt -yqq update && apt -yqq upgrade && apt install -yqq apt-venv python3 python3-pip
+
+RUN mkdir -p /api
+
+COPY ./entrypoint.py /api/entrypoint.py
+COPY ./requirements.txt /api/requirements.txt
+
+WORKDIR /api
 RUN pip3 install -r requirements.txt
 
 # Setup environments
 RUN apt-venv stable -c "apt update -yqq && apt upgrade -yqq"
 
-COPY ./entrypoint.py entrypoint.py
+ENTRYPOINT ["python3", "entrypoint.py", "-f"]
