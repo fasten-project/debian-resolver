@@ -26,11 +26,6 @@ optional arguments:
   -f, --flask           Deploy flask api
 ```
 
-Flask API
----------
-* **Endpoint**: `/api/v1/packages`
-* **Supported query parameters**: input (mandatory), release
-
 Output Format
 -------------
 
@@ -74,4 +69,53 @@ Otherwise, it produces a JSON with an error message.
     "status": false,
     "error": "E: Unable to locate package buz"
 }
+```
+
+## Micro-service
+
+Deploy a micro-service that exposes a REST API for resolving Debian dependencies.
+
+```bash
+docker build -f Dockerfile -t debian-resolver .
+docker run -p 5001:5000 debian-resolver
+```
+
+* Request format
+
+```
+url: http://localhost:5001/dependencies/{packageName}/{version}
+```
+<b>Note:</b> The {version} path parameter is optional
+
+* Example request using curl:
+
+```bash
+curl "http://localhost:5001/dependencies/debianutils/4.11.2""
+```
+
+* Output format:
+
+ ```json
+  {
+    "product": "debianutils",
+    "version": "4.11.2"
+  },
+  {
+    "product": "libcap-ng0",
+    "version": "0.7.9-2.2+b1"
+  },
+  {
+    "product": "libgnutls30",
+    "version": "3.7.1-5"
+  },
+  {
+    "product": "libtext-wrapi18n-perl",
+    "version": "0.06-9"
+  },
+  {
+    "product": "debconf",
+    "version": "1.5.77"
+  },
+   ...
+]
 ```
