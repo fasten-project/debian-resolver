@@ -90,7 +90,7 @@ url: http://localhost:5001/dependencies/{packageName}/{version}
 * Example request using curl:
 
 ```bash
-curl "http://localhost:5001/dependencies/debianutils/4.11.2""
+curl "http://localhost:5001/dependencies/debianutils/4.11.2"
 ```
 
 * Output format:
