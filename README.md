@@ -76,8 +76,8 @@ Otherwise, it produces a JSON with an error message.
 Deploy a micro-service that exposes a REST API for resolving Debian dependencies.
 
 ```bash
-docker build -f Dockerfile -t debian-resolver .
-docker run -p 5001:5000 debian-resolver
+docker build -f Dockerfile -t debian-resolver-api .
+docker run -p 5001:5000 debian-resolver-api
 ```
 
 * Request format
