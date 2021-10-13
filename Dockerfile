@@ -21,9 +21,8 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-FROM debian:stable
+FROM debian:buster
 
-COPY sources.list /etc/apt/sources.list
 # INSTALL git, python3, python, wget, pip3
 RUN apt -yqq update && apt -yqq upgrade && apt install -yqq git python3 python wget python3-pip
 
