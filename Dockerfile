@@ -23,6 +23,7 @@
 #
 FROM debian:stable
 
+COPY sources.list /etc/apt/sources.list
 # INSTALL git, python3, python, wget, pip3
 RUN apt -yqq update && apt -yqq upgrade && apt install -yqq git python3 python wget python3-pip
 
