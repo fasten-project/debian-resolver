@@ -1,0 +1,33 @@
+name: Docker image build and publication
+
+on:
+  # On push, build and publish `master` branch as Docker `latest` image
+  push:
+    branches:
+      - master
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: debian-resolver-api
+
+jobs:
+  build-and-push-image:
+    # Run on the same OS as targeted server
+    runs-on: ubuntu-18.04
+    permissions: 
+      contents: read
+      packages: write
+
+    steps:
+      - name: Log in to the container registry
+        uses: docker/login-action@v1
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: ${{ env.IMAGE_NAME }}
